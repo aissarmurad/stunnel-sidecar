@@ -1,0 +1,18 @@
+fips = no
+setuid = root
+setgid = root
+pid = /var/run/stunnel.pid
+debug = 7
+output = /var/log/stunnel.log 
+delay = yes
+foreground = yes
+options = NO_SSLv2
+options = NO_SSLv3
+[redis-master]
+  client = yes
+  accept = 127.0.0.1:6379
+  connect = master.<blablabla>.cache.amazonaws.com:6379
+[redis-replica]
+  client = yes
+  accept = 127.0.0.1:6380
+  connect = replica.<blablabla>.cache.amazonaws.com:6379

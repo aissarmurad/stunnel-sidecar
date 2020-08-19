@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  creationTimestamp: null
+  labels:
+    app: stunnel-example
+  name: stunnel-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stunnel-example
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: stunnel-example
+    spec:
+      containers:
+      - name: stunnel-sidecar
+        image: aissarmurad/stunnel:latest
+        imagePullPolicy: Always
+        command:
+          - stunnel
+        args:
+          - /etc/stunnel/stunnel.conf
+        ports:
+        - containerPort: 6379
+        - conteinerPort: 6380
+        resources: {}
+        volumeMounts:
+        - mountPath: /etc/stunnel
+          name: stunnel-volume
+      volumes:
+      - name: stunnel-volume
+        configMap:
+          defaultMode: 420
+          optional: false
+          name: stunnel-conf
+status: {}
